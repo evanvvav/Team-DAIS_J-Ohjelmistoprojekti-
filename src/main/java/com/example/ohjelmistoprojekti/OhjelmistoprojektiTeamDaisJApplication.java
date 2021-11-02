@@ -25,7 +25,7 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner bookDemo(AnswerRepository aRepo, SurveyRepository sRepo, QuestionRepository qRepo) {
+	public CommandLineRunner surveyDemo(AnswerRepository aRepo, SurveyRepository sRepo, QuestionRepository qRepo) {
 		return (args) -> {
 			log.info("saving sample data");
 			Survey survey1 = new Survey("First survey");
