@@ -54,8 +54,6 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 			aRepo.save(a6);
 			log.info("for question " + q2.getQuestion() + " answers created: 1)" + a4.getAnswer() + " 2)" + a5.getAnswer() + " 3)" + a6.getAnswer());
 			
-			
-		
 	};
 
 	}

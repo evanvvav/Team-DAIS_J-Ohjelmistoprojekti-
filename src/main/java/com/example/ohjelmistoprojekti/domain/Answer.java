@@ -40,7 +40,7 @@ public class Answer {
 		super();
 		this.question=null;
 		this.userAnswer=null;
-		this.answer=answer;
+		this.answer=null;
 	}
 	
 	public Answer(String answer, Question question) {
