@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <title>List of Surveys</title>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+<!--    <link rel="stylesheet" th:href="@{style/cssANDjs/teamList.css}"/>-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<header>
+<!--    <div class="logInfo">-->
+<!--        <p>[[${#httpServletRequest.remoteUser}]]</p>-->
+<!--        <form th:action="@{/logout}" method="post">-->
+<!--            <input type="submit" value="Logout" class="header-btn logout-btn"/>-->
+<!--        </form>-->
+<!--    </div>-->
+</header>
+<div class="main">
+    <h2>Hello1</h2>
+    <div th:each="survey : ${surveys}">
+        <a th:href="@{/survey/{id}(id=${survey.getSurveyID()})}"><p th:text="${survey.getSurveyDesc()}"></p></a>
+    </div>
+</div>
+</body>
