@@ -18,14 +18,17 @@
 </header>
 <div class="main">
     <h2 th:text="${question.getSurvey().getSurveyDesc()}"></h2>
-    	<form>  
+    	<form method="post" th:object="${uAnswer}" th:action="@{/saveresponse}" action="#" >  
 	        <p th:text="${question.getQuestion()}"></p>
 	        <div class="radio" th:each="answer : ${question.getAnswers()}">
 			  <label>
-			    <input type="radio" name="survey" th:text=" ${answer.getAnswer()}">
+			    <input type="radio" th:value="${answer.answerID}" th:text=" ${answer.getAnswer()}" th:field = "${uAnswer.userAnswerID}">
+			    <input type="hidden" th:field="${uAnswer.userAnswerID}"/>
+
 			  </label> 
 		    </div>
-		    <a href="/saveresponse"><button class="btn btn-primary" type="submit">Save and next question</button></a>
+		    <input type="submit" value="Save and go to next question"/>
+		  
 	    </form>
 
 </div>
