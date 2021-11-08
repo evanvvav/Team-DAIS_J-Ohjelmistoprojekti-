@@ -1,10 +1,13 @@
 package com.example.ohjelmistoprojekti.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.ohjelmistoprojekti.domain.Answer;
 import com.example.ohjelmistoprojekti.domain.AnswerRepository;
@@ -38,6 +41,8 @@ public class AppController {
 	@GetMapping(value="survey/{id}")
 	public String getSurvey(@PathVariable("id") Long surveyID, Model model) {
 		model.addAttribute("survey", sRepo.findById(surveyID).get());
+		Question firstQuestion=sRepo.findById(surveyID).get().getQuestions().get(0);
+		model.addAttribute("firstQuestion", firstQuestion);
 		return "survey";
 	}
 	
@@ -47,7 +52,24 @@ public class AppController {
 		Question question = qRepo.findById(questionID).get();
 		model.addAttribute("question", question);
 		model.addAttribute("answers", question.getAnswers());
+		model.addAttribute("uAnswer", new UserAnswer());
 		return "question";
+	}
+	
+	@PostMapping (value="/saveresponse")
+	public String saveResp(UserAnswer uAnswer) {
+		uaRepo.save(uAnswer);
+		Answer answer = uAnswer.getAnswer();
+		List<Answer> aList = answer.getQuestion().getAnswers();
+		int id = 0;
+		for (Answer a : aList) {
+			if (a.getAnswer() == answer.getAnswer()) {
+				id = aList.indexOf(a) + 1;				
+			}
+		}
+		return "question" + Integer.toString(id);
+		
+		
 	}
 	
 	

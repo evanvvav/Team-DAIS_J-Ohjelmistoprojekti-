@@ -18,12 +18,12 @@ public class UserAnswer {
 	@JoinColumn(name="answerID")
 	private Answer answer;
 	
-	private UserAnswer() {
+	public UserAnswer() {
 		super();
 		this.answer=null;
 	}
 	
-	private UserAnswer(Answer answer) {
+	public UserAnswer(Answer answer) {
 		super();
 		this.answer=answer;
 	}
