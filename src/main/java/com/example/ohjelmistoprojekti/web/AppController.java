@@ -60,14 +60,17 @@ public class AppController {
 	public String saveResp(UserAnswer uAnswer) {
 		uaRepo.save(uAnswer);
 		Answer answer = uAnswer.getAnswer();
-		List<Answer> aList = answer.getQuestion().getAnswers();
-		int id = 0;
-		for (Answer a : aList) {
-			if (a.getAnswer() == answer.getAnswer()) {
-				id = aList.indexOf(a) + 1;				
+		Question question = answer.getQuestion();
+		List<Question> qList = question.getSurvey().getQuestions();
+
+		int i = 0;
+		for (Question q : qList) {
+			if (q.getQuestion() == question.getQuestion()) {
+				i = qList.indexOf(q) + 1;				
 			}
 		}
-		return "question" + Integer.toString(id);
+		
+		return "question" + Long.toString(qList.get(i).getQuestionID());
 		
 		
 	}
