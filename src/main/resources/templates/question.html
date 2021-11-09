@@ -22,12 +22,13 @@
 	        <p th:text="${question.getQuestion()}"></p>
 	        <div class="radio" th:each="answer : ${question.getAnswers()}">
 			  <label>
-			    <input type="radio" th:value="${answer.answerID}" th:text=" ${answer.getAnswer()}" th:field = "${uAnswer.userAnswerID}">
+			    <input type="radio" th:value="${answer.answerID}" th:text=" ${answer.getAnswer()}" >
 			    <input type="hidden" th:field="${uAnswer.userAnswerID}"/>
+			    <input type="hidden" th:field="${uAnswer.answer.answerID}"/>
 
 			  </label> 
 		    </div>
-		    <input type="submit" value="Save and go to next question"/>
+		    <input type="submit" value="Save and go to next question" />
 		  
 	    </form>
 
