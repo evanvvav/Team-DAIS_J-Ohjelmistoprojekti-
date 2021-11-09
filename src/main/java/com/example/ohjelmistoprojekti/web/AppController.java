@@ -1,6 +1,7 @@
 package com.example.ohjelmistoprojekti.web;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.ohjelmistoprojekti.OhjelmistoprojektiTeamDaisJApplication;
 import com.example.ohjelmistoprojekti.domain.Answer;
@@ -76,6 +81,52 @@ public class AppController {
 		}
 		return "question" + Long.toString(qList.get(i).getQuestionID());
 	}
+	
+	@RequestMapping(value="/apiquestions", method = RequestMethod.GET)
+	public @ResponseBody List<Question> questionListRest() {
+		return (List<Question>) qRepo.findAll();
+	}
+	
+	@RequestMapping(value="/apiquestions/{id}", method = RequestMethod.GET)
+	public @ResponseBody Optional<Question> findQuestionRest(@PathVariable("id") Long questionID) {
+		return qRepo.findById(questionID);
+	}
+	
+	@RequestMapping(value="/apisurveys", method = RequestMethod.GET)
+	public @ResponseBody List<Survey> surveyListRest() {
+		return (List<Survey>) sRepo.findAll();
+	}
+	
+	@RequestMapping(value="/apisurveys/{id}", method = RequestMethod.GET)
+	public @ResponseBody Optional<Survey> findSurveyRest(@PathVariable("id") Long surveyID) {
+		return sRepo.findById(surveyID);
+	}
+	
+	@RequestMapping(value="/apianswers", method = RequestMethod.GET)
+	public @ResponseBody List<Answer> answerListRest() {
+		return (List<Answer>) aRepo.findAll();
+	}
+	
+	@RequestMapping(value="/apianswers/{id}", method = RequestMethod.GET)
+	public @ResponseBody Optional<Answer> findAnswerRest(@PathVariable("id") Long answerID) {
+		return aRepo.findById(answerID);
+	}
+	
+	@RequestMapping(value="/apiuseranswers", method = RequestMethod.GET)
+	public @ResponseBody List<UserAnswer> uAnswerListRest() {
+		return (List<UserAnswer>) uaRepo.findAll();
+	}
+	
+	@RequestMapping(value="/apiuseranswers/{id}", method = RequestMethod.GET)
+	public @ResponseBody Optional<UserAnswer> findUserAnswerRest(@PathVariable("id") Long uanswerID) {
+		return uaRepo.findById(uanswerID);
+	}
+	
+    @RequestMapping(value="/apiuseranswers", method = RequestMethod.POST)
+    public @ResponseBody UserAnswer saveUAnswerRest(@RequestBody UserAnswer uAnswer) {	
+    	return uaRepo.save(uAnswer);
+    }
+	
 	
 	
 }
