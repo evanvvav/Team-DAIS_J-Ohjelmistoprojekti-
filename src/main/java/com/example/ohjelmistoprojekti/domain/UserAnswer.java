@@ -14,9 +14,10 @@ public class UserAnswer {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long userAnswerID;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="answerID")
 	private Answer answer;
+	
 	
 	public UserAnswer() {
 		super();

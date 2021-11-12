@@ -31,7 +31,7 @@ public class Answer {
 	@JoinColumn(name="questionID")
 	private Question question;
 	
-	//for radiobutton questions: 1 possible answer
+//	for radiobutton questions: 1 possible answer
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="userAnswerID")
 	private UserAnswer userAnswer;
@@ -65,12 +65,12 @@ public class Answer {
 		this.question = question;
 	}
 
-	public UserAnswer getUserAnswer() {
-		return userAnswer;
-	}
-
-	public void setUserAnswer(UserAnswer userAnswer) {
-		this.userAnswer = userAnswer;
-	}	
+//	public UserAnswer getUserAnswer() {
+//		return userAnswer;
+//	}
+//
+//	public void setUserAnswer(UserAnswer userAnswer) {
+//		this.userAnswer = userAnswer;
+//	}	
 
 }

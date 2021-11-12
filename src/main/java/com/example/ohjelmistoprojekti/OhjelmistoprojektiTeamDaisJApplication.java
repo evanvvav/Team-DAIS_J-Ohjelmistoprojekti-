@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 
 import com.example.ohjelmistoprojekti.domain.AnswerRepository;
 import com.example.ohjelmistoprojekti.domain.SurveyRepository;
+import com.example.ohjelmistoprojekti.domain.UserAnswer;
+import com.example.ohjelmistoprojekti.domain.UserAnswerRepository;
 import com.example.ohjelmistoprojekti.domain.QuestionRepository;
 import com.example.ohjelmistoprojekti.domain.Survey;
 import com.example.ohjelmistoprojekti.domain.Answer;
@@ -25,7 +27,7 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner surveyDemo(AnswerRepository aRepo, SurveyRepository sRepo, QuestionRepository qRepo) {
+	public CommandLineRunner surveyDemo(AnswerRepository aRepo, SurveyRepository sRepo, QuestionRepository qRepo, UserAnswerRepository uaRepo) {
 		return (args) -> {
 			log.info("saving sample data");
 			Survey survey1 = new Survey("First survey");
@@ -54,6 +56,12 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 			aRepo.save(a6);
 			log.info("for question " + q2.getQuestion() + " answers created: 1)" + a4.getAnswer() + " 2)" + a5.getAnswer() + " 3)" + a6.getAnswer());
 			
+			UserAnswer ua1 = new UserAnswer(a1);
+//			UserAnswer ua2 = new UserAnswer(a4);
+//			
+			uaRepo.save(ua1);
+//			uaRepo.save(ua2);
+			log.info("user answers saved: " + ua1.getAnswer().getAnswerID()) ;
 	};
 
 	}

@@ -41,8 +41,6 @@ public class AppController {
 	@Autowired
 	private UserAnswerRepository uaRepo;
 	
-
-	
 	
 	
 	@RequestMapping(value="/apiquestions", method = RequestMethod.GET)
@@ -96,6 +94,17 @@ public class AppController {
     @RequestMapping(value="/apiuseranswers", method = RequestMethod.POST)
     public @ResponseBody UserAnswer saveUAnswerRest(@RequestBody UserAnswer uAnswer) {	
     	return uaRepo.save(uAnswer);
+    }
+    @RequestMapping(value="/apisurveys", method = RequestMethod.POST)
+    @CrossOrigin(origins = "http://localhost:3000")
+    public @ResponseBody Survey saveSurveyRest(@RequestBody Survey survey) {	
+    	return sRepo.save(survey);
+    }
+    
+    @RequestMapping(value="/apiquestions", method = RequestMethod.POST)
+    @CrossOrigin(origins = "http://localhost:3000")
+    public @ResponseBody Question saveQuestionRest(@RequestBody Question question) {	
+    	return qRepo.save(question);
     }
 	
 	//get all surveys and list them as links
