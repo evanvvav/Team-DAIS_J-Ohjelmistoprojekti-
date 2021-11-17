@@ -44,6 +44,15 @@ public class Question {
 		this.survey=survey;
 	}
 
+	
+	public Question(String question, String questionType, Survey survey, List<Answer> answers) {
+		super();
+		this.question=question;
+		this.questionType=questionType;
+		this.survey=survey;
+		this.answers=answers;
+	}
+
 	public Long getQuestionID() {
 		return questionID;
 	}

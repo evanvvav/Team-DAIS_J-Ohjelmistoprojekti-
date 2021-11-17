@@ -1,11 +1,14 @@
 package com.example.ohjelmistoprojekti.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,7 +44,52 @@ public class AppController {
 	@Autowired
 	private UserAnswerRepository uaRepo;
 	
+
+//Methods for SURVEYS
 	
+	@RequestMapping(value="/apisurveys", method = RequestMethod.GET)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody List<Survey> surveyListRest() {
+		return (List<Survey>) sRepo.findAll();
+	}
+		
+	@RequestMapping(value="/apisurveys/{id}", method = RequestMethod.GET)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody Optional<Survey> findSurveyRest(@PathVariable("id") Long surveyID) {
+		return sRepo.findById(surveyID);
+	}
+	
+    @RequestMapping(value="/apisurveys", method = RequestMethod.POST)
+    @CrossOrigin(origins = "http://localhost:3000")
+    public @ResponseBody Survey saveSurveyRest(@RequestBody Survey survey) {	
+    	return sRepo.save(survey);
+    }
+    
+    @RequestMapping(value="/apisurveys", method = RequestMethod.PUT)
+    @CrossOrigin(origins = "http://localhost:3000")
+    public @ResponseBody Survey updateSurveyRest(@RequestBody Survey survey) {	
+    	return sRepo.save(survey);
+    }
+    
+	
+//	@CrossOrigin(origins = "http://localhost:3000")
+//	public @ResponseBody String deleteSurveyRest(@PathVariable("id") Long surveyID) {
+//		return "deleted";
+//	}
+    @RequestMapping(value="/apisurveys/{id}", method = RequestMethod.DELETE)
+	public Map<String, Boolean> deleteSurveyRest(@PathVariable(value = "id") Long surveyID)
+	  throws ResourceNotFoundException {
+	    Survey survey = sRepo.findById(surveyID)
+	      .orElseThrow(() -> new ResourceNotFoundException("Survey not found for this id :: " + surveyID));
+
+	    sRepo.delete(survey);
+	    Map<String, Boolean> response = new HashMap<>();
+	    response.put("deleted", Boolean.TRUE);
+	    return response;
+	}
+    
+	
+//Methods for QUESTIONS
 	
 	@RequestMapping(value="/apiquestions", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:3000")
@@ -55,17 +103,19 @@ public class AppController {
 		return qRepo.findById(questionID);
 	}
 	
-	@RequestMapping(value="/apisurveys", method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody List<Survey> surveyListRest() {
-		return (List<Survey>) sRepo.findAll();
-	}
-	
-	@RequestMapping(value="/apisurveys/{id}", method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody Optional<Survey> findSurveyRest(@PathVariable("id") Long surveyID) {
-		return sRepo.findById(surveyID);
-	}
+    @RequestMapping(value="/apiquestions", method = RequestMethod.POST)
+    @CrossOrigin(origins = "http://localhost:3000")
+    public @ResponseBody Question saveQuestionRest(@RequestBody Question question) {	
+    	return qRepo.save(question);
+    }
+    
+    @RequestMapping(value="/apiquestions", method = RequestMethod.PUT)
+    @CrossOrigin(origins = "http://localhost:3000")
+    public @ResponseBody Question updateQuestionRest(@RequestBody Question question) {	
+    	return qRepo.save(question);
+    }
+    
+//Methods for ANSWERS
 	
 	@RequestMapping(value="/apianswers", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:3000")
@@ -79,6 +129,19 @@ public class AppController {
 		return aRepo.findById(answerID);
 	}
 	
+    @RequestMapping(value="/apianswers", method = RequestMethod.POST)
+    @CrossOrigin(origins = "http://localhost:3000")
+    public @ResponseBody Answer saveAnswerRest(@RequestBody Answer answer) {	
+    	return aRepo.save(answer);
+    }
+    
+    @RequestMapping(value="/apianswers", method = RequestMethod.PUT)
+    @CrossOrigin(origins = "http://localhost:3000")
+    public @ResponseBody Answer updateAnswerRest(@RequestBody Answer answer) {	
+    	return aRepo.save(answer);
+    }
+	
+//Methods for USERANSWERS
 	@RequestMapping(value="/apiuseranswers", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:3000")
 	public @ResponseBody List<UserAnswer> uAnswerListRest() {
@@ -95,59 +158,75 @@ public class AppController {
     public @ResponseBody UserAnswer saveUAnswerRest(@RequestBody UserAnswer uAnswer) {	
     	return uaRepo.save(uAnswer);
     }
-    @RequestMapping(value="/apisurveys", method = RequestMethod.POST)
-    @CrossOrigin(origins = "http://localhost:3000")
-    public @ResponseBody Survey saveSurveyRest(@RequestBody Survey survey) {	
-    	return sRepo.save(survey);
+    
+    @RequestMapping(value="/apiuseranswers", method = RequestMethod.PUT)
+    public @ResponseBody UserAnswer updateUAnswerRest(@RequestBody UserAnswer uAnswer) {	
+    	return uaRepo.save(uAnswer);
     }
     
-    @RequestMapping(value="/apiquestions", method = RequestMethod.POST)
-    @CrossOrigin(origins = "http://localhost:3000")
-    public @ResponseBody Question saveQuestionRest(@RequestBody Question question) {	
-    	return qRepo.save(question);
-    }
+    @RequestMapping(value="/apiuseranswers/{id}", method = RequestMethod.DELETE)
+	public Map<String, Boolean> deleteUAnswerRest(@PathVariable(value = "id") Long uanswerID)
+	  throws ResourceNotFoundException {
+	    UserAnswer uAnswer= uaRepo.findById(uanswerID)
+	      .orElseThrow(() -> new ResourceNotFoundException("Survey not found for this id : " + uanswerID));
+	    uaRepo.delete(uAnswer);
+	    Map<String, Boolean> response = new HashMap<>();
+	    response.put("deleted", Boolean.TRUE);
+	    return response;
+	}
+    
+//	@RequestMapping(value="/apiuseranswers/{id}", method = RequestMethod.DELETE)
+//	@CrossOrigin(origins = "http://localhost:3000")
+//	public @ResponseBody String deleteUserAnswerRest(@PathVariable("id") Long uanswerID) {
+//		return "deleted";
+//	}
+    
+    
+    
+
+
 	
 	//get all surveys and list them as links
-	@GetMapping(value={"", "/", "surveys"})
-	public String getAllSurveys(Model model) {
-		model.addAttribute("surveys", sRepo.findAll());
-		return "surveys";
-	}
-	
-	//retrieving survey's main page. It could contain button "start" 
-	@GetMapping(value="survey/{id}")
-	public String getSurvey(@PathVariable("id") Long surveyID, Model model) {
-		model.addAttribute("survey", sRepo.findById(surveyID).get());
-		Question firstQuestion=sRepo.findById(surveyID).get().getQuestions().get(0);
-		model.addAttribute("firstQuestion", firstQuestion);
-		return "survey";
-	}
-	
-	//retrieving question page: question and suggested answers
-	@GetMapping (value="question/{id}") 
-	public String getQuestion(@PathVariable("id") Long questionID, Model model) {
-		Question question = qRepo.findById(questionID).get();
-		model.addAttribute("question", question);
-		model.addAttribute("answers", question.getAnswers());
-		model.addAttribute("uAnswer", new UserAnswer());
-		return "question";
-	}
-	
-	@PostMapping (value="/saveresponse")
-	public String saveResp(UserAnswer uAnswer) {
-		uaRepo.save(uAnswer);
-		Answer answer = uAnswer.getAnswer();
-		Question question = answer.getQuestion();
-		List<Question> qList = question.getSurvey().getQuestions();
-
-		int i = 0;
-		for (Question q : qList) {
-			if (q.getQuestion() == question.getQuestion()) {
-				i = qList.indexOf(q) + 1;				
-			}
-		}
-		return "question" + Long.toString(qList.get(i).getQuestionID());
-	}
+//	@GetMapping(value={"", "/", "surveys"})
+//	public String getAllSurveys(Model model) {
+//		model.addAttribute("surveys", sRepo.findAll());
+//		return "surveys";
+//	}
+//	
+//	//retrieving survey's main page. It could contain button "start" 
+//	@GetMapping(value="survey/{id}")
+//	public String getSurvey(@PathVariable("id") Long surveyID, Model model) {
+//		model.addAttribute("survey", sRepo.findById(surveyID).get());
+//		Question firstQuestion=sRepo.findById(surveyID).get().getQuestions().get(0);
+//		model.addAttribute("firstQuestion", firstQuestion);
+//		return "survey";
+//	}
+//	
+//	//retrieving question page: question and suggested answers
+//	@GetMapping (value="question/{id}") 
+//	public String getQuestion(@PathVariable("id") Long questionID, Model model) {
+//		Question question = qRepo.findById(questionID).get();
+//		model.addAttribute("question", question);
+//		model.addAttribute("answers", question.getAnswers());
+//		model.addAttribute("uAnswer", new UserAnswer());
+//		return "question";
+//	}
+//	
+//	@PostMapping (value="/saveresponse")
+//	public String saveResp(UserAnswer uAnswer) {
+//		uaRepo.save(uAnswer);
+//		Answer answer = uAnswer.getAnswer();
+//		Question question = answer.getQuestion();
+//		List<Question> qList = question.getSurvey().getQuestions();
+//
+//		int i = 0;
+//		for (Question q : qList) {
+//			if (q.getQuestion() == question.getQuestion()) {
+//				i = qList.indexOf(q) + 1;				
+//			}
+//		}
+//		return "question" + Long.toString(qList.get(i).getQuestionID());
+//	}
 	
 }
 
