@@ -58,10 +58,20 @@ public class AppController {
     	return sRepo.save(survey);
     }
     
-    @RequestMapping(value="/apisurveys", method = RequestMethod.PUT)
+    //if no survey with such id found, the new empty survey with given id is created
+    @RequestMapping(value="/apisurveys/{id}", method = RequestMethod.PUT)
     @CrossOrigin(origins = "http://localhost:3000")
-    public Survey updateSurveyRest(@RequestBody Survey survey) {	
-    	return sRepo.save(survey);
+    public Survey updateSurveyRest(@RequestBody Survey newSurvey, @PathVariable Long id) {	
+    	return sRepo.findById(id)
+    			.map(survey-> {
+    				survey.setSurveyDesc(newSurvey.getSurveyDesc());
+    				return sRepo.save(survey);
+    			})
+    			.orElseGet(()->{
+    				newSurvey.setSurveyID(id);
+    				return sRepo.save(newSurvey);
+    			});
+    			
     }
     
     @RequestMapping(value="/apisurveys/{id}", method = RequestMethod.DELETE)
@@ -99,12 +109,24 @@ public class AppController {
     	return questionResponse;
     }
     
-    @RequestMapping(value="/apiquestions", method = RequestMethod.PUT)
+    //if no question with such id found, the new question with given id is created
+    @RequestMapping(value="/apiquestions/{id}", method = RequestMethod.PUT)
     @CrossOrigin(origins = "http://localhost:3000")
-    public Question updateQuestionRest(@RequestBody Question question) {	
-    	return qRepo.save(question);
+    public Question updateQustionRest(@RequestBody Question newQuestion, @PathVariable Long id) {	
+    	return qRepo.findById(id)
+    			.map(question-> {
+    				question.setQuestion(newQuestion.getQuestion());
+    				question.setQuestionType(newQuestion.getQuestionType());
+    				question.setSurvey(newQuestion.getSurvey());
+    				return qRepo.save(question);
+    			})
+    			.orElseGet(()->{
+    				newQuestion.setQuestionID(id);
+    				return qRepo.save(newQuestion);
+    			});
     }
-    
+        
+
     @RequestMapping(value="/apiquestions/{id}", method = RequestMethod.DELETE)
     public String deleteQuestionRest(@PathVariable Long id) {	
     	qRepo.deleteById(id);
@@ -138,10 +160,20 @@ public class AppController {
     	return answerResponse;
     }
     
-    @RequestMapping(value="/apianswers", method = RequestMethod.PUT)
+    //if no answer with such id found, the new answer with given id is created
+    @RequestMapping(value="/apianswers/{id}", method = RequestMethod.PUT)
     @CrossOrigin(origins = "http://localhost:3000")
-    public Answer updateAnswerRest(@RequestBody Answer answer) {	
-    	return aRepo.save(answer);
+    public Answer updateANswerRest(@RequestBody Answer newAnswer, @PathVariable Long id) {	
+    	return aRepo.findById(id)
+    			.map(answer-> {
+    				answer.setAnswer(newAnswer.getAnswer());
+    				answer.setQuestion(newAnswer.getQuestion());
+    				return aRepo.save(answer);
+    			})
+    			.orElseGet(()->{
+    				newAnswer.setAnswerID(id);
+    				return aRepo.save(newAnswer);
+    			});
     }
     
     @RequestMapping(value="/apianswers/{id}", method = RequestMethod.DELETE)
@@ -169,7 +201,7 @@ public class AppController {
     	return uaRepo.save(uAnswer);
     }
     
-    @RequestMapping(value="/apiuseranswers", method = RequestMethod.PUT)
+    @RequestMapping(value="/apiuseranswers/", method = RequestMethod.PUT)
     public UserAnswer updateUAnswerRest(@RequestBody UserAnswer uAnswer) {	
     	return uaRepo.save(uAnswer);
     }
