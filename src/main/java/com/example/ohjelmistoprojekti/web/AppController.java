@@ -1,26 +1,18 @@
 package com.example.ohjelmistoprojekti.web;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ohjelmistoprojekti.OhjelmistoprojektiTeamDaisJApplication;
 import com.example.ohjelmistoprojekti.domain.Answer;
 import com.example.ohjelmistoprojekti.domain.AnswerRepository;
 import com.example.ohjelmistoprojekti.domain.Question;
@@ -30,7 +22,8 @@ import com.example.ohjelmistoprojekti.domain.SurveyRepository;
 import com.example.ohjelmistoprojekti.domain.UserAnswer;
 import com.example.ohjelmistoprojekti.domain.UserAnswerRepository;
 
-@Controller
+@CrossOrigin(origins = "http://localhost:3000")
+@RestController
 public class AppController {
 	
 	private static final Logger log = LoggerFactory.getLogger(AppController.class);
@@ -49,184 +42,143 @@ public class AppController {
 	
 	@RequestMapping(value="/apisurveys", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody List<Survey> surveyListRest() {
+	public List<Survey> surveyListRest() {
 		return (List<Survey>) sRepo.findAll();
 	}
 		
 	@RequestMapping(value="/apisurveys/{id}", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody Optional<Survey> findSurveyRest(@PathVariable("id") Long surveyID) {
+	public Optional<Survey> findSurveyRest(@PathVariable("id") Long surveyID) {
 		return sRepo.findById(surveyID);
 	}
 	
     @RequestMapping(value="/apisurveys", method = RequestMethod.POST)
     @CrossOrigin(origins = "http://localhost:3000")
-    public @ResponseBody Survey saveSurveyRest(@RequestBody Survey survey) {	
+    public Survey saveSurveyRest(@RequestBody Survey survey) {	
     	return sRepo.save(survey);
     }
     
     @RequestMapping(value="/apisurveys", method = RequestMethod.PUT)
     @CrossOrigin(origins = "http://localhost:3000")
-    public @ResponseBody Survey updateSurveyRest(@RequestBody Survey survey) {	
+    public Survey updateSurveyRest(@RequestBody Survey survey) {	
     	return sRepo.save(survey);
     }
     
-	
-//	@CrossOrigin(origins = "http://localhost:3000")
-//	public @ResponseBody String deleteSurveyRest(@PathVariable("id") Long surveyID) {
-//		return "deleted";
-//	}
     @RequestMapping(value="/apisurveys/{id}", method = RequestMethod.DELETE)
-	public Map<String, Boolean> deleteSurveyRest(@PathVariable(value = "id") Long surveyID)
-	  throws ResourceNotFoundException {
-	    Survey survey = sRepo.findById(surveyID)
-	      .orElseThrow(() -> new ResourceNotFoundException("Survey not found for this id :: " + surveyID));
-
-	    sRepo.delete(survey);
-	    Map<String, Boolean> response = new HashMap<>();
-	    response.put("deleted", Boolean.TRUE);
-	    return response;
+	@CrossOrigin(origins = "http://localhost:3000")
+	public String deleteSurveyRest(@PathVariable("id") Long surveyID) {
+		sRepo.deleteById(surveyID);
+		return "Survey " + surveyID + " deleted";
 	}
-    
+
 	
 //Methods for QUESTIONS
 	
 	@RequestMapping(value="/apiquestions", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody List<Question> questionListRest() {
+	public List<Question> questionListRest() {
 		return (List<Question>) qRepo.findAll();
 	}
 	
 	@RequestMapping(value="/apiquestions/{id}", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody Optional<Question> findQuestionRest(@PathVariable("id") Long questionID) {
+	public Optional<Question> findQuestionRest(@PathVariable("id") Long questionID) {
 		return qRepo.findById(questionID);
 	}
 	
     @RequestMapping(value="/apiquestions", method = RequestMethod.POST)
     @CrossOrigin(origins = "http://localhost:3000")
-    public @ResponseBody Question saveQuestionRest(@RequestBody Question question) {	
+    public Question saveQuestionRest(@RequestBody Question question) {	
     	return qRepo.save(question);
+    }
+    
+    @RequestMapping(value="/saveallquestions", method = RequestMethod.POST)
+    @CrossOrigin(origins = "http://localhost:3000")
+    public List<Question> saveAllQuestionsRest(@RequestBody List<Question> questions) {	
+    	List<Question> questionResponse=(List<Question>) qRepo.saveAll(questions);
+    	return questionResponse;
     }
     
     @RequestMapping(value="/apiquestions", method = RequestMethod.PUT)
     @CrossOrigin(origins = "http://localhost:3000")
-    public @ResponseBody Question updateQuestionRest(@RequestBody Question question) {	
+    public Question updateQuestionRest(@RequestBody Question question) {	
     	return qRepo.save(question);
     }
+    
+    @RequestMapping(value="/apiquestions/{id}", method = RequestMethod.DELETE)
+    public String deleteQuestionRest(@PathVariable Long id) {	
+    	qRepo.deleteById(id);
+    	return "Question " + id + " deleted";
+    }   
     
 //Methods for ANSWERS
 	
 	@RequestMapping(value="/apianswers", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody List<Answer> answerListRest() {
+	public List<Answer> answerListRest() {
 		return (List<Answer>) aRepo.findAll();
 	}
 	
 	@RequestMapping(value="/apianswers/{id}", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody Optional<Answer> findAnswerRest(@PathVariable("id") Long answerID) {
+	public Optional<Answer> findAnswerRest(@PathVariable("id") Long answerID) {
 		return aRepo.findById(answerID);
 	}
 	
     @RequestMapping(value="/apianswers", method = RequestMethod.POST)
     @CrossOrigin(origins = "http://localhost:3000")
-    public @ResponseBody Answer saveAnswerRest(@RequestBody Answer answer) {	
+    public Answer saveAnswerRest(@RequestBody Answer answer) {	
     	return aRepo.save(answer);
+    }
+    
+    @RequestMapping(value="/saveallanswers", method = RequestMethod.POST)
+    @CrossOrigin(origins = "http://localhost:3000")
+    public List<Answer> saveAllAnswersRest(@RequestBody List<Answer> answers) {	
+    	List<Answer> answerResponse=(List<Answer>) aRepo.saveAll(answers);
+    	return answerResponse;
     }
     
     @RequestMapping(value="/apianswers", method = RequestMethod.PUT)
     @CrossOrigin(origins = "http://localhost:3000")
-    public @ResponseBody Answer updateAnswerRest(@RequestBody Answer answer) {	
+    public Answer updateAnswerRest(@RequestBody Answer answer) {	
     	return aRepo.save(answer);
     }
+    
+    @RequestMapping(value="/apianswers/{id}", method = RequestMethod.DELETE)
+    public String deleteAnswerRest(@PathVariable Long id) {	
+    	aRepo.deleteById(id);
+    	return "Answer " + id + " deleted";
+    }
+    
 	
 //Methods for USERANSWERS
 	@RequestMapping(value="/apiuseranswers", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody List<UserAnswer> uAnswerListRest() {
+	public List<UserAnswer> uAnswerListRest() {
 		return (List<UserAnswer>) uaRepo.findAll();
 	}
 	
 	@RequestMapping(value="/apiuseranswers/{id}", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody Optional<UserAnswer> findUserAnswerRest(@PathVariable("id") Long uanswerID) {
+	public Optional<UserAnswer> findUserAnswerRest(@PathVariable("id") Long uanswerID) {
 		return uaRepo.findById(uanswerID);
 	}
 	
     @RequestMapping(value="/apiuseranswers", method = RequestMethod.POST)
-    public @ResponseBody UserAnswer saveUAnswerRest(@RequestBody UserAnswer uAnswer) {	
+    public UserAnswer saveUAnswerRest(@RequestBody UserAnswer uAnswer) {	
     	return uaRepo.save(uAnswer);
     }
     
     @RequestMapping(value="/apiuseranswers", method = RequestMethod.PUT)
-    public @ResponseBody UserAnswer updateUAnswerRest(@RequestBody UserAnswer uAnswer) {	
+    public UserAnswer updateUAnswerRest(@RequestBody UserAnswer uAnswer) {	
     	return uaRepo.save(uAnswer);
     }
     
     @RequestMapping(value="/apiuseranswers/{id}", method = RequestMethod.DELETE)
-	public Map<String, Boolean> deleteUAnswerRest(@PathVariable(value = "id") Long uanswerID)
-	  throws ResourceNotFoundException {
-	    UserAnswer uAnswer= uaRepo.findById(uanswerID)
-	      .orElseThrow(() -> new ResourceNotFoundException("Survey not found for this id : " + uanswerID));
-	    uaRepo.delete(uAnswer);
-	    Map<String, Boolean> response = new HashMap<>();
-	    response.put("deleted", Boolean.TRUE);
-	    return response;
-	}
-    
-//	@RequestMapping(value="/apiuseranswers/{id}", method = RequestMethod.DELETE)
-//	@CrossOrigin(origins = "http://localhost:3000")
-//	public @ResponseBody String deleteUserAnswerRest(@PathVariable("id") Long uanswerID) {
-//		return "deleted";
-//	}
-    
-    
-    
-
-
-	
-	//get all surveys and list them as links
-//	@GetMapping(value={"", "/", "surveys"})
-//	public String getAllSurveys(Model model) {
-//		model.addAttribute("surveys", sRepo.findAll());
-//		return "surveys";
-//	}
-//	
-//	//retrieving survey's main page. It could contain button "start" 
-//	@GetMapping(value="survey/{id}")
-//	public String getSurvey(@PathVariable("id") Long surveyID, Model model) {
-//		model.addAttribute("survey", sRepo.findById(surveyID).get());
-//		Question firstQuestion=sRepo.findById(surveyID).get().getQuestions().get(0);
-//		model.addAttribute("firstQuestion", firstQuestion);
-//		return "survey";
-//	}
-//	
-//	//retrieving question page: question and suggested answers
-//	@GetMapping (value="question/{id}") 
-//	public String getQuestion(@PathVariable("id") Long questionID, Model model) {
-//		Question question = qRepo.findById(questionID).get();
-//		model.addAttribute("question", question);
-//		model.addAttribute("answers", question.getAnswers());
-//		model.addAttribute("uAnswer", new UserAnswer());
-//		return "question";
-//	}
-//	
-//	@PostMapping (value="/saveresponse")
-//	public String saveResp(UserAnswer uAnswer) {
-//		uaRepo.save(uAnswer);
-//		Answer answer = uAnswer.getAnswer();
-//		Question question = answer.getQuestion();
-//		List<Question> qList = question.getSurvey().getQuestions();
-//
-//		int i = 0;
-//		for (Question q : qList) {
-//			if (q.getQuestion() == question.getQuestion()) {
-//				i = qList.indexOf(q) + 1;				
-//			}
-//		}
-//		return "question" + Long.toString(qList.get(i).getQuestionID());
-//	}
+    public String deleteUAnswerRest(@PathVariable Long id) {	
+    	uaRepo.deleteById(id);
+    	return "UserAnswer " + id + " deleted";
+    }   
 	
 }
 

@@ -1,5 +1,7 @@
 package com.example.ohjelmistoprojekti.domain;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -31,15 +33,16 @@ public class Answer {
 	@JoinColumn(name="questionID")
 	private Question question;
 	
-//	for radiobutton questions: 1 possible answer
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="userAnswerID")
-	private UserAnswer userAnswer;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="answer")
+	@JsonIgnoreProperties("answer")
+	private List<UserAnswer> userAnswers;
 	
+
+
 	public Answer() {
 		super();
 		this.question=null;
-		this.userAnswer=null;
 		this.answer=null;
 	}
 	
@@ -64,13 +67,13 @@ public class Answer {
 	public void setQuestion(Question question) {
 		this.question = question;
 	}
+	public List<UserAnswer> getUserAnswers() {
+		return userAnswers;
+	}
 
-//	public UserAnswer getUserAnswer() {
-//		return userAnswer;
-//	}
-//
-//	public void setUserAnswer(UserAnswer userAnswer) {
-//		this.userAnswer = userAnswer;
-//	}	
+	public void setUserAnswers(List<UserAnswer> userAnswers) {
+		this.userAnswers = userAnswers;
+	}
+
 
 }

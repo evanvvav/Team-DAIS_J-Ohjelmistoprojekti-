@@ -57,11 +57,11 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 			log.info("for question " + q2.getQuestion() + " answers created: 1)" + a4.getAnswer() + " 2)" + a5.getAnswer() + " 3)" + a6.getAnswer());
 			
 			UserAnswer ua1 = new UserAnswer(a1);
-//			UserAnswer ua2 = new UserAnswer(a4);
-//			
+			UserAnswer ua2 = new UserAnswer(a4);
+			
 			uaRepo.save(ua1);
-//			uaRepo.save(ua2);
-			log.info("user answers saved: " + ua1.getAnswer().getAnswerID()) ;
+			uaRepo.save(ua2);
+			log.info("user answers saved for answers: " + ua1.getAnswer().getAnswerID() + ", " + ua2.getAnswer().getAnswerID()) ;
 	};
 
 	}

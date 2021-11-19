@@ -1,12 +1,13 @@
 package com.example.ohjelmistoprojekti.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class UserAnswer {
@@ -14,10 +15,10 @@ public class UserAnswer {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long userAnswerID;
 	
-	@OneToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
+	@JsonIgnoreProperties("userAnswers")
 	@JoinColumn(name="answerID")
-	private Answer answer;
-	
+	private Answer answer;	
 	
 	public UserAnswer() {
 		super();
