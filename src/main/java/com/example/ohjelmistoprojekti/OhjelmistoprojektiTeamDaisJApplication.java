@@ -8,9 +8,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.example.ohjelmistoprojekti.domain.AnswerRepository;
+import com.example.ohjelmistoprojekti.domain.OpenUserAnswer;
+import com.example.ohjelmistoprojekti.domain.OpenUserAnswerRepository;
 import com.example.ohjelmistoprojekti.domain.SurveyRepository;
+import com.example.ohjelmistoprojekti.domain.User;
 import com.example.ohjelmistoprojekti.domain.UserAnswer;
 import com.example.ohjelmistoprojekti.domain.UserAnswerRepository;
+import com.example.ohjelmistoprojekti.domain.UserRepository;
 import com.example.ohjelmistoprojekti.domain.QuestionRepository;
 import com.example.ohjelmistoprojekti.domain.Survey;
 import com.example.ohjelmistoprojekti.domain.Answer;
@@ -27,7 +31,8 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner surveyDemo(AnswerRepository aRepo, SurveyRepository sRepo, QuestionRepository qRepo, UserAnswerRepository uaRepo) {
+	public CommandLineRunner surveyDemo(AnswerRepository aRepo, SurveyRepository sRepo, QuestionRepository qRepo, 
+			UserAnswerRepository uaRepo, OpenUserAnswerRepository oUaRepo, UserRepository uRepo) {
 		return (args) -> {
 			log.info("saving sample data");
 			Survey survey1 = new Survey("First survey");
@@ -39,6 +44,9 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 			Question q2 = new Question("Do you like bootstrap?", "radio-button question", survey1);
 			qRepo.save(q2);
 			log.info("questions created: 1)" + q1.getQuestion() + " 2)" + q2.getQuestion());
+			Question q3 = new Question("What is your name?", "open question", survey1);
+			qRepo.save(q3);
+			log.info("questions created: 1)" + q1.getQuestion() + " 2)" + q2.getQuestion() + " 3)" + q3.getQuestion());
 			
 			Answer a1 = new Answer("very difficult", q1);
 			aRepo.save(a1);
@@ -62,6 +70,14 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 			uaRepo.save(ua1);
 			uaRepo.save(ua2);
 			log.info("user answers saved for answers: " + ua1.getAnswer().getAnswerID() + ", " + ua2.getAnswer().getAnswerID()) ;
+			
+			User anna = new User();
+			uRepo.save(anna);
+			
+			OpenUserAnswer oua1 = new OpenUserAnswer("Anna", anna, q3);
+			oUaRepo.save(oua1);
+			
+			log.info("For question " + q3.getQuestion() + " answer " + oua1.getAnswerText() + " by user " + anna.getUserID() + " created");
 	};
 
 	}

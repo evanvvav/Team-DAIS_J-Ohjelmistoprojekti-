@@ -20,16 +20,31 @@ public class UserAnswer {
 	@JoinColumn(name="answerID")
 	private Answer answer;	
 	
-	public UserAnswer() {
-		super();
-		this.answer=null;
-	}
+	@ManyToOne
+	@JsonIgnoreProperties("userAnswers")
+	@JoinColumn(name="userID")
+	private User user;	
 	
 	public UserAnswer(Answer answer) {
 		super();
 		this.answer=answer;
 	}
 
+	public UserAnswer() {
+		super();
+		this.answer=null;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
+	
 	public Long getUserAnswerID() {
 		return userAnswerID;
 	}

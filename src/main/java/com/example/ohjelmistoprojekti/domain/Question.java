@@ -30,6 +30,10 @@ public class Question {
 	@JsonIgnoreProperties("question")
 	private List<Answer> answers;
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="question")
+	@JsonIgnoreProperties("question")
+	private List<OpenUserAnswer> openAnswers;
+	
 	public Question() {
 		super();
 		this.survey=null;
@@ -52,6 +56,15 @@ public class Question {
 		this.survey=survey;
 		this.answers=answers;
 	}
+	
+	public List<OpenUserAnswer> getOpenAnswers() {
+		return openAnswers;
+	}
+
+	public void setOpenAnswers(List<OpenUserAnswer> openAnswers) {
+		this.openAnswers = openAnswers;
+	}
+
 
 	public Long getQuestionID() {
 		return questionID;

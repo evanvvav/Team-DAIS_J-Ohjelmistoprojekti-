@@ -15,12 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ohjelmistoprojekti.domain.Answer;
 import com.example.ohjelmistoprojekti.domain.AnswerRepository;
+import com.example.ohjelmistoprojekti.domain.OpenUserAnswer;
+import com.example.ohjelmistoprojekti.domain.OpenUserAnswerRepository;
 import com.example.ohjelmistoprojekti.domain.Question;
 import com.example.ohjelmistoprojekti.domain.QuestionRepository;
 import com.example.ohjelmistoprojekti.domain.Survey;
 import com.example.ohjelmistoprojekti.domain.SurveyRepository;
+import com.example.ohjelmistoprojekti.domain.User;
 import com.example.ohjelmistoprojekti.domain.UserAnswer;
 import com.example.ohjelmistoprojekti.domain.UserAnswerRepository;
+import com.example.ohjelmistoprojekti.domain.UserRepository;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -36,6 +40,10 @@ public class AppController {
 	private QuestionRepository qRepo;
 	@Autowired
 	private UserAnswerRepository uaRepo;
+	@Autowired
+	private OpenUserAnswerRepository oUaRepo;
+	@Autowired
+	private UserRepository uRepo;
 	
 
 //Methods for SURVEYS
@@ -70,8 +78,7 @@ public class AppController {
     			.orElseGet(()->{
     				newSurvey.setSurveyID(id);
     				return sRepo.save(newSurvey);
-    			});
-    			
+    			});	
     }
     
     @RequestMapping(value="/apisurveys/{id}", method = RequestMethod.DELETE)
@@ -125,7 +132,6 @@ public class AppController {
     				return qRepo.save(newQuestion);
     			});
     }
-        
 
     @RequestMapping(value="/apiquestions/{id}", method = RequestMethod.DELETE)
     public String deleteQuestionRest(@PathVariable Long id) {	
@@ -201,17 +207,74 @@ public class AppController {
     	return uaRepo.save(uAnswer);
     }
     
-    @RequestMapping(value="/apiuseranswers/", method = RequestMethod.PUT)
-    public UserAnswer updateUAnswerRest(@RequestBody UserAnswer uAnswer) {	
-    	return uaRepo.save(uAnswer);
-    }
-    
     @RequestMapping(value="/apiuseranswers/{id}", method = RequestMethod.DELETE)
     public String deleteUAnswerRest(@PathVariable Long id) {	
     	uaRepo.deleteById(id);
     	return "UserAnswer " + id + " deleted";
     }   
+    
+  //Methods for USERS
+	@RequestMapping(value="/apiusers", method = RequestMethod.GET)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public List<User> usersListRest() {
+		return (List<User>) uRepo.findAll();
+	}
 	
+	@RequestMapping(value="/apiusers/{id}", method = RequestMethod.GET)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public Optional<User> findUserRest(@PathVariable("id") Long id) {
+		return uRepo.findById(id);
+	}
+	
+    @RequestMapping(value="/apiusers", method = RequestMethod.POST)
+    public User saveUserRest(@RequestBody User user) {	
+    	return uRepo.save(user);
+    }
+    
+    @RequestMapping(value="/apiusers/{id}", method = RequestMethod.DELETE)
+    public String deleteUserRest(@PathVariable Long id) {	
+    	uRepo.deleteById(id);
+    	return "User " + id + " deleted";
+    } 
+   
+    @RequestMapping(value="/apiusers/{id}", method = RequestMethod.PUT)
+    @CrossOrigin(origins = "http://localhost:3000")
+    public User updateUserRest(@RequestBody User newUser, @PathVariable Long id) {	
+    	return uRepo.findById(id)
+    			.map(user-> {
+    				user.setUserName(newUser.getUserName());
+    				return uRepo.save(user);
+    			})
+    			.orElseGet(()->{
+    				newUser.setUserID(id);
+    				return uRepo.save(newUser);
+    			});
+    }
+    
+  //Methods for OPEN USER ANSWERS
+	@RequestMapping(value="/apiouanswers", method = RequestMethod.GET)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public List<OpenUserAnswer> ouaListRest() {
+		return (List<OpenUserAnswer>) oUaRepo.findAll();
+	}
+	
+	@RequestMapping(value="/apiouanswers/{id}", method = RequestMethod.GET)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public Optional<OpenUserAnswer> findOUARest(@PathVariable("id") Long id) {
+		return oUaRepo.findById(id);
+	}
+	
+    @RequestMapping(value="/apiouanswers", method = RequestMethod.POST)
+    public OpenUserAnswer saveOUARest(@RequestBody OpenUserAnswer ouanswer) {	
+    	return oUaRepo.save(ouanswer);
+    }
+    
+    @RequestMapping(value="/apiouanswers/{id}", method = RequestMethod.DELETE)
+    public String deleteOUARest(@PathVariable Long id) {	
+    	oUaRepo.deleteById(id);
+    	return "User " + id + " deleted";
+    } 
+   
 }
 
 
