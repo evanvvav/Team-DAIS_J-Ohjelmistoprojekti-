@@ -211,7 +211,15 @@ public class AppController {
     public String deleteUAnswerRest(@PathVariable Long id) {	
     	uaRepo.deleteById(id);
     	return "UserAnswer " + id + " deleted";
-    }   
+    }  
+    
+    @RequestMapping(value="/savealluseranswers", method = RequestMethod.POST)
+    @CrossOrigin(origins = "http://localhost:3000")
+    public List<UserAnswer> saveAllUserAnswersRest(@RequestBody List<UserAnswer> userAnswers) {	
+    	List<UserAnswer> uanswerResponse=(List<UserAnswer>) uaRepo.saveAll(userAnswers);
+    	return uanswerResponse;
+    }
+    
     
   //Methods for USERS
 	@RequestMapping(value="/apiusers", method = RequestMethod.GET)

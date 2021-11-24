@@ -44,9 +44,9 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 			Question q2 = new Question("Do you like bootstrap?", "radio-button question", survey1);
 			qRepo.save(q2);
 			log.info("questions created: 1)" + q1.getQuestion() + " 2)" + q2.getQuestion());
-			Question q3 = new Question("What is your name?", "open question", survey1);
-			qRepo.save(q3);
-			log.info("questions created: 1)" + q1.getQuestion() + " 2)" + q2.getQuestion() + " 3)" + q3.getQuestion());
+//			Question q3 = new Question("What is your name?", "open question", survey1);
+//			qRepo.save(q3);
+//			log.info("questions created: 1)" + q1.getQuestion() + " 2)" + q2.getQuestion() + " 3)" + q3.getQuestion());
 			
 			Answer a1 = new Answer("very difficult", q1);
 			aRepo.save(a1);
@@ -74,10 +74,10 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 			User anna = new User();
 			uRepo.save(anna);
 			
-			OpenUserAnswer oua1 = new OpenUserAnswer("Anna", anna, q3);
-			oUaRepo.save(oua1);
-			
-			log.info("For question " + q3.getQuestion() + " answer " + oua1.getAnswerText() + " by user " + anna.getUserID() + " created");
+//			OpenUserAnswer oua1 = new OpenUserAnswer("Anna", anna, q3);
+//			oUaRepo.save(oua1);
+//			
+//			log.info("For question " + q3.getQuestion() + " answer " + oua1.getAnswerText() + " by user " + anna.getUserID() + " created");
 	};
 
 	}
