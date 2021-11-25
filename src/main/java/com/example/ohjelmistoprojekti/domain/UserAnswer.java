@@ -12,29 +12,32 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 public class UserAnswer {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long userAnswerID;
-	
+
+	// link to answers/options
 	@ManyToOne
 	@JsonIgnoreProperties("userAnswers")
-	@JoinColumn(name="answerID")
-	private Answer answer;	
-	
+	@JoinColumn(name = "answerID")
+	private Answer answer;
+
+	// link to users
+	// allows saving answers by user
 	@ManyToOne
 	@JsonIgnoreProperties("userAnswers")
-	@JoinColumn(name="userID")
-	private User user;	
-	
+	@JoinColumn(name = "userID")
+	private User user;
+
 	public UserAnswer(Answer answer) {
 		super();
-		this.answer=answer;
+		this.answer = answer;
 	}
 
 	public UserAnswer() {
 		super();
-		this.answer=null;
+		this.answer = null;
 	}
-	
+
 	public User getUser() {
 		return user;
 	}
@@ -43,8 +46,6 @@ public class UserAnswer {
 		this.user = user;
 	}
 
-
-	
 	public Long getUserAnswerID() {
 		return userAnswerID;
 	}

@@ -12,34 +12,35 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 public class OpenUserAnswer {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long openUserAnswerID;
-	
+
 	private String answerText;
-	
-	@ManyToOne
-	@JsonIgnoreProperties("userAnswers")
-	@JoinColumn(name="questionID")
-	private Question question;	
-	
+
 	@ManyToOne
 	@JsonIgnoreProperties("openUserAnswers")
-	@JoinColumn(name="userID")
+	@JoinColumn(name = "questionID")
+	private Question question;
+
+	// link answers to open questions to users
+	@ManyToOne
+	@JsonIgnoreProperties("openUserAnswers")
+	@JoinColumn(name = "userID")
 	private User user;
-	
+
 	public OpenUserAnswer() {
 		super();
-		this.question=null;
-		this.user=null;
-		this.answerText=null;
+		this.question = null;
+		this.user = null;
+		this.answerText = null;
 	}
-	
+
 	public OpenUserAnswer(String answerText, User user, Question question) {
 		super();
-		this.question=question;
-		this.user=user;
-		this.answerText=answerText;
-	}	
+		this.question = question;
+		this.user = user;
+		this.answerText = answerText;
+	}
 
 	public Long getOpenUserAnswerID() {
 		return openUserAnswerID;
@@ -71,8 +72,6 @@ public class OpenUserAnswer {
 
 	public void setUser(User user) {
 		this.user = user;
-	}	
-	
-	
+	}
 
 }
