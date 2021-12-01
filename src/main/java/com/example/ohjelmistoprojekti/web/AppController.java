@@ -273,6 +273,14 @@ public class AppController {
 	public OpenUserAnswer saveOUARest(@RequestBody OpenUserAnswer ouanswer) {
 		return oUaRepo.save(ouanswer);
 	}
+	
+	//save LIST of OUAnswers
+	@RequestMapping(value = "/saveallouanswers", method = RequestMethod.POST)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public List<OpenUserAnswer> saveAllOUAnswersRest(@RequestBody List<OpenUserAnswer> ouAnswers) {
+		List<OpenUserAnswer> ouanswerResponse = (List<OpenUserAnswer>) oUaRepo.saveAll(ouAnswers);
+		return ouanswerResponse;
+	}
 
 	// delete openuseranswer
 	@RequestMapping(value = "/apiouanswers/{id}", method = RequestMethod.DELETE)
