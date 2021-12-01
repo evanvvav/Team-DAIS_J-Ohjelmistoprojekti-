@@ -48,6 +48,9 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 			qRepo.save(q3);
 			log.info("questions created: 1)" + q1.getQuestion() + " 2)" + q2.getQuestion() + " 3)" + q3.getQuestion());
 			
+			User user1 = new User("Anna");
+			uRepo.save(user1);
+			
 			Answer a1 = new Answer("very difficult", q1);
 			aRepo.save(a1);
 			Answer a2 = new Answer("somewhat difficult", q1);
@@ -64,20 +67,13 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 			aRepo.save(a6);
 			log.info("for question " + q2.getQuestion() + " answers created: 1)" + a4.getAnswer() + " 2)" + a5.getAnswer() + " 3)" + a6.getAnswer());
 			
-			UserAnswer ua1 = new UserAnswer(a1);
-			UserAnswer ua2 = new UserAnswer(a4);
+			UserAnswer ua1 = new UserAnswer(a1, user1);
 			
 			uaRepo.save(ua1);
-			uaRepo.save(ua2);
-			log.info("user answers saved for answers: " + ua1.getAnswer().getAnswerID() + ", " + ua2.getAnswer().getAnswerID()) ;
+			log.info("user answers saved for answers: " + ua1.getAnswer().getAnswerID()) ;
 			
-			User anna = new User();
-			uRepo.save(anna);
 			
-//			OpenUserAnswer oua1 = new OpenUserAnswer("Anna", anna, q3);
-//			oUaRepo.save(oua1);
-//			
-//			log.info("For question " + q3.getQuestion() + " answer " + oua1.getAnswerText() + " by user " + anna.getUserID() + " created");
+			
 	};
 
 	}

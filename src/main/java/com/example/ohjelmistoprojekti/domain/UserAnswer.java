@@ -32,6 +32,12 @@ public class UserAnswer {
 		super();
 		this.answer = answer;
 	}
+	
+	public UserAnswer(Answer answer, User user) {
+		super();
+		this.answer = answer;
+		this.user=user;
+	}
 
 	public UserAnswer() {
 		super();
