@@ -12,31 +12,30 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-//@Table(name="users")
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long userID;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="user")
 	@JsonIgnoreProperties("user")
 	private List<UserAnswer> userAnswers;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="user")
 	@JsonIgnoreProperties("user")
 	private List<OpenUserAnswer> openUserAnswers;
-
+	
 	private String userName;
-
+	
 	public User() {
 		super();
 	}
-
+	
 	public User(String name) {
 		super();
 		this.userName = name;
 	}
-
+	
 	public String getUserName() {
 		return userName;
 	}
@@ -53,6 +52,8 @@ public class User {
 		this.openUserAnswers = openUserAnswers;
 	}
 
+
+
 	public Long getUserID() {
 		return userID;
 	}
@@ -68,5 +69,8 @@ public class User {
 	public void setUserAnswers(List<UserAnswer> userAnswers) {
 		this.userAnswers = userAnswers;
 	}
+	
+	
+	
 
 }
