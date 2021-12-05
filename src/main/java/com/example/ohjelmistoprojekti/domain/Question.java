@@ -23,7 +23,9 @@ public class Question {
 	@JsonIgnoreProperties("questions")
 	@JoinColumn(name="surveyID")
 	private Survey survey;
+	
 	private String questionType;
+	
 	private String question;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="question")
@@ -32,7 +34,7 @@ public class Question {
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="question")
 	@JsonIgnoreProperties("question")
-	private List<OpenUserAnswer> openAnswers;
+	private List<OpenUserAnswer> openUserAnswers;
 	
 	public Question() {
 		super();
@@ -58,11 +60,11 @@ public class Question {
 	}
 	
 	public List<OpenUserAnswer> getOpenAnswers() {
-		return openAnswers;
+		return openUserAnswers;
 	}
 
-	public void setOpenAnswers(List<OpenUserAnswer> openAnswers) {
-		this.openAnswers = openAnswers;
+	public void setOpenAnswers(List<OpenUserAnswer> openUserAnswers) {
+		this.openUserAnswers = openUserAnswers;
 	}
 
 

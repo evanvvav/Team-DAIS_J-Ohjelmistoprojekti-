@@ -80,7 +80,7 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 
 //			OpenUserAnswer oua1 = new OpenUserAnswer("Anna", anna, q3);
 //			oUaRepo.save(oua1);
-//			
+//
 //			log.info("For question " + q3.getQuestion() + " answer " + oua1.getAnswerText() + " by user " + anna.getUserID() + " created");
 		};
 
