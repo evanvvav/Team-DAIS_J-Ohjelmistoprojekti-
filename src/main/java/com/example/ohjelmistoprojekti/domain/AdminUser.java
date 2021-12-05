@@ -1,76 +1,66 @@
 package com.example.ohjelmistoprojekti.domain;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-public class User {
+public class AdminUser {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long userID;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-	@JsonIgnoreProperties("user")
-	private List<UserAnswer> userAnswers;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-	@JsonIgnoreProperties("user")
-	private List<OpenUserAnswer> openUserAnswers;
-	
-	private String userName;
-	
-	public User() {
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "adminId", nullable = false, updatable = false)
+	private Long adminId;
+// Username with unique constraint
+	@Column(name = "adminUsername", nullable = false, unique = true)
+	private String adminUsername;
+	@Column(name = "password", nullable = false)
+	private String passwordHash;
+	@Column(name = "role", nullable = false)
+	private String role;
+
+	public AdminUser() {
 		super();
 	}
-	
-	public User(String name) {
+
+	public AdminUser(String adminUsername, String passwordHash, String role) {
 		super();
-		this.userName = name;
-	}
-	
-	public String getUserName() {
-		return userName;
+		this.adminUsername = adminUsername;
+		this.passwordHash = passwordHash;
+		this.role = role;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public Long getAdminId() {
+		return adminId;
 	}
 
-	public List<OpenUserAnswer> getOpenUserAnswers() {
-		return openUserAnswers;
+	public void setAdminId(Long adminId) {
+		this.adminId = adminId;
 	}
 
-	public void setOpenUserAnswers(List<OpenUserAnswer> openUserAnswers) {
-		this.openUserAnswers = openUserAnswers;
+	public String getAdminUsername() {
+		return adminUsername;
 	}
 
-
-
-	public Long getUserID() {
-		return userID;
+	public void setAdminUsername(String adminUsername) {
+		this.adminUsername = adminUsername;
 	}
 
-	public void setUserID(Long userID) {
-		this.userID = userID;
+	public String getPasswordHash() {
+		return passwordHash;
 	}
 
-	public List<UserAnswer> getUserAnswers() {
-		return userAnswers;
+	public void setPasswordHash(String passwordHash) {
+		this.passwordHash = passwordHash;
 	}
 
-	public void setUserAnswers(List<UserAnswer> userAnswers) {
-		this.userAnswers = userAnswers;
+	public String getRole() {
+		return role;
 	}
-	
-	
-	
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 
 }

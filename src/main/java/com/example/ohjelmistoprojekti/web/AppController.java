@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.ohjelmistoprojekti.domain.AdminUser;
+import com.example.ohjelmistoprojekti.domain.AdminUserRepository;
 import com.example.ohjelmistoprojekti.domain.Answer;
 import com.example.ohjelmistoprojekti.domain.AnswerRepository;
 import com.example.ohjelmistoprojekti.domain.OpenUserAnswer;
@@ -44,6 +47,8 @@ public class AppController {
 	private OpenUserAnswerRepository oUaRepo;
 	@Autowired
 	private UserRepository uRepo;
+	@Autowired
+	private AdminUserRepository adminRepo;
 
 //Methods for SURVEYS
 
@@ -252,6 +257,38 @@ public class AppController {
 		});
 	}
 
+	// Methods for ADMINUSERS
+	// so far only these
+	// not sure what we needed
+	// for any method that is ONLY FOR ADMINUSERS
+	// the endpoint needs to start with /apiadmin/x
+	// can replace x with whatever and only admin users can access it
+	// if try to access it via url, redirected to login page
+	// after successful login, can access whatever you please until logout
+
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(value = "/apiadmin/adusers", method = RequestMethod.GET)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public List<AdminUser> adminUsersListRest() {
+		return (List<AdminUser>) adminRepo.findAll();
+	}
+
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(value = "/apiadmin/aduser/{id}", method = RequestMethod.GET)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public Optional<AdminUser> findAdminUserRest(@PathVariable("id") Long id) {
+		return adminRepo.findById(id);
+	}
+
+	// methods to authenticate an adminuser
+
+	@RequestMapping(value = "/login")
+	public String login() {
+		return "login";
+	}
+
+	// THE ENDPOINT FOR LOGGING OUT IS JUST /LOGOUT
+
 	// Methods for OPEN USER ANSWERS
 
 	// list all openuseranswers
@@ -273,8 +310,8 @@ public class AppController {
 	public OpenUserAnswer saveOUARest(@RequestBody OpenUserAnswer ouanswer) {
 		return oUaRepo.save(ouanswer);
 	}
-	
-	//save LIST of OUAnswers
+
+	// save LIST of OUAnswers
 	@RequestMapping(value = "/saveallouanswers", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:3000")
 	public List<OpenUserAnswer> saveAllOUAnswersRest(@RequestBody List<OpenUserAnswer> ouAnswers) {

@@ -26,7 +26,7 @@ public class OpenUserAnswer {
 	@ManyToOne
 	@JsonIgnoreProperties("openUserAnswers")
 	@JoinColumn(name = "userID")
-	private User user;
+	private AdminUser user;
 
 	public OpenUserAnswer() {
 		super();
@@ -35,7 +35,7 @@ public class OpenUserAnswer {
 		this.answerText = null;
 	}
 
-	public OpenUserAnswer(String answerText, User user, Question question) {
+	public OpenUserAnswer(String answerText, AdminUser user, Question question) {
 		super();
 		this.question = question;
 		this.user = user;
@@ -66,11 +66,11 @@ public class OpenUserAnswer {
 		this.question = question;
 	}
 
-	public User getUser() {
+	public AdminUser getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(AdminUser user) {
 		this.user = user;
 	}
 
