@@ -33,6 +33,12 @@ public class UserAnswer {
 		this.answer = answer;
 	}
 
+	public UserAnswer(Answer answer, User user) {
+		super();
+		this.answer = answer;
+		this.user = user;
+	}
+
 	public UserAnswer() {
 		super();
 		this.answer = null;
