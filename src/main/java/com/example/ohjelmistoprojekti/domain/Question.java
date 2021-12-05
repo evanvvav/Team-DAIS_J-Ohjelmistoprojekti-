@@ -18,31 +18,31 @@ public class Question {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long questionID;
-	
+
 	@ManyToOne
 	@JsonIgnoreProperties("questions")
 	@JoinColumn(name="surveyID")
 	private Survey survey;
-	
+
 	private String questionType;
-	
+
 	private String question;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="question")
 	@JsonIgnoreProperties("question")
 	private List<Answer> answers;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="question")
 	@JsonIgnoreProperties("question")
 	private List<OpenUserAnswer> openUserAnswers;
-	
+
 	public Question() {
 		super();
 		this.survey=null;
 		this.question=null;
 		this.questionType=null;
 	}
-	
+
 	public Question(String question, String questionType, Survey survey) {
 		super();
 		this.question=question;
@@ -50,7 +50,7 @@ public class Question {
 		this.survey=survey;
 	}
 
-	
+
 	public Question(String question, String questionType, Survey survey, List<Answer> answers) {
 		super();
 		this.question=question;
@@ -58,7 +58,7 @@ public class Question {
 		this.survey=survey;
 		this.answers=answers;
 	}
-	
+
 	public List<OpenUserAnswer> getOpenAnswers() {
 		return openUserAnswers;
 	}
@@ -107,8 +107,8 @@ public class Question {
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
 	}
-	
-	
-	
+
+
+
 
 }
