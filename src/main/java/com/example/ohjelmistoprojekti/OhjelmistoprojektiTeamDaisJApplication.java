@@ -11,6 +11,7 @@ import com.example.ohjelmistoprojekti.domain.AdminUser;
 import com.example.ohjelmistoprojekti.domain.AdminUserRepository;
 import com.example.ohjelmistoprojekti.domain.Answer;
 import com.example.ohjelmistoprojekti.domain.AnswerRepository;
+import com.example.ohjelmistoprojekti.domain.OpenUserAnswer;
 import com.example.ohjelmistoprojekti.domain.OpenUserAnswerRepository;
 import com.example.ohjelmistoprojekti.domain.Question;
 import com.example.ohjelmistoprojekti.domain.QuestionRepository;
@@ -70,9 +71,13 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 					+ a5.getAnswer() + " 3)" + a6.getAnswer());
 
 			UserAnswer ua1 = new UserAnswer(a1, user1);
+			UserAnswer ua2 = new UserAnswer(a4, user1);
 
 			uaRepo.save(ua1);
-			log.info("user answers saved for answers: " + ua1.getAnswer().getAnswerID());
+			uaRepo.save(ua2);
+			
+			OpenUserAnswer oua1 = new OpenUserAnswer("Sample answer 1", user1, q3);
+			oUaRepo.save(oua1);
 
 			AdminUser admin1 = new AdminUser("admin", "$2a$10$0MMwY.IQqpsVc1jC8u7IJ.2rT8b0Cd3b3sfIBGV2zfgnPGtT4r0.C",
 					"ADMIN");
