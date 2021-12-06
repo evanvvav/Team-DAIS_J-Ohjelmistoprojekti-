@@ -59,7 +59,7 @@ public class Question {
 		this.answers=answers;
 	}
 
-	public List<OpenUserAnswer> getOpenAnswers() {
+	public List<OpenUserAnswer> getOpenUserAnswers() {
 		return openUserAnswers;
 	}
 

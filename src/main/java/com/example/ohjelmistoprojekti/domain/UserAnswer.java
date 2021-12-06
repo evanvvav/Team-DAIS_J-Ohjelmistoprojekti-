@@ -17,7 +17,7 @@ public class UserAnswer {
 
 	// link to answers/options
 	@ManyToOne
-	@JsonIgnoreProperties("userAnswers")
+	@JsonIgnoreProperties({"userAnswers", "openUserAnswers"})
 	@JoinColumn(name = "answerID")
 	private Answer answer;
 
