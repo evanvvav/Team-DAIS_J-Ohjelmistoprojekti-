@@ -18,9 +18,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserDetailServiceImpl userDetailsService;
 
+//THIS SHOULD BE THE ONE
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/apiadmin/**").hasAuthority("ADMIN").and()
-				.formLogin().defaultSuccessUrl("/apisurveys", true).permitAll().and().logout().permitAll();
+				.formLogin().defaultSuccessUrl("/apisurveys", true).permitAll().and().logout().permitAll().and().csrf()
+				.disable();
 	}
 
 //	protected void configure(HttpSecurity http) throws Exception {
