@@ -24,19 +24,19 @@ public class UserAnswer {
 	// link to users
 	// allows saving answers by user
 	@ManyToOne
-	@JsonIgnoreProperties("userAnswers")
-	@JoinColumn(name = "userID")
-	private User user;
+	@JsonIgnoreProperties({"respondent", "userAnswers"})
+	@JoinColumn(name = "respondentID")
+	private Respondent respondent;
 
 	public UserAnswer(Answer answer) {
 		super();
 		this.answer = answer;
 	}
 
-	public UserAnswer(Answer answer, User user) {
+	public UserAnswer(Answer answer, Respondent respondent) {
 		super();
 		this.answer = answer;
-		this.user = user;
+		this.respondent = respondent;
 	}
 
 	public UserAnswer() {
@@ -44,12 +44,12 @@ public class UserAnswer {
 		this.answer = null;
 	}
 
-	public User getUser() {
-		return user;
+	public Respondent getRespondent() {
+		return respondent;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setRespondent(Respondent respondent) {
+		this.respondent = respondent;
 	}
 
 	public Long getUserAnswerID() {

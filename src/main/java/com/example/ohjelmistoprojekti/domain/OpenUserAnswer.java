@@ -24,21 +24,21 @@ public class OpenUserAnswer {
 
 	// link answers to open questions to users
 	@ManyToOne
-	@JsonIgnoreProperties("openUserAnswers")
-	@JoinColumn(name = "userID")
-	private User user;
+	@JsonIgnoreProperties({"respondent", "openUserAnswers"})
+	@JoinColumn(name = "respondentID")
+	private Respondent respondent;
 
 	public OpenUserAnswer() {
 		super();
 		this.question = null;
-		this.user = null;
+		this.respondent = null;
 		this.answerText = null;
 	}
 
-	public OpenUserAnswer(String answerText, User user, Question question) {
+	public OpenUserAnswer(String answerText, Respondent respondent, Question question) {
 		super();
 		this.question = question;
-		this.user = user;
+		this.respondent = respondent;
 		this.answerText = answerText;
 	}
 
@@ -66,12 +66,12 @@ public class OpenUserAnswer {
 		this.question = question;
 	}
 
-	public User getUser() {
-		return user;
+	public Respondent getRespondent() {
+		return respondent;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void getRespondent(Respondent respondent) {
+		this.respondent = respondent;
 	}
 
 }

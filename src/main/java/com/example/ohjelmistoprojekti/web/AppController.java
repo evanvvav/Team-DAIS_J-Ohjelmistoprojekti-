@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ohjelmistoprojekti.domain.AdminUser;
-import com.example.ohjelmistoprojekti.domain.AdminUserRepository;
 import com.example.ohjelmistoprojekti.domain.Answer;
 import com.example.ohjelmistoprojekti.domain.AnswerRepository;
 import com.example.ohjelmistoprojekti.domain.OpenUserAnswer;
@@ -24,10 +21,10 @@ import com.example.ohjelmistoprojekti.domain.Question;
 import com.example.ohjelmistoprojekti.domain.QuestionRepository;
 import com.example.ohjelmistoprojekti.domain.Survey;
 import com.example.ohjelmistoprojekti.domain.SurveyRepository;
-import com.example.ohjelmistoprojekti.domain.User;
+import com.example.ohjelmistoprojekti.domain.Respondent;
 import com.example.ohjelmistoprojekti.domain.UserAnswer;
 import com.example.ohjelmistoprojekti.domain.UserAnswerRepository;
-import com.example.ohjelmistoprojekti.domain.UserRepository;
+import com.example.ohjelmistoprojekti.domain.RespondentRepository;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -46,9 +43,8 @@ public class AppController {
 	@Autowired
 	private OpenUserAnswerRepository oUaRepo;
 	@Autowired
-	private UserRepository uRepo;
-	@Autowired
-	private AdminUserRepository adminRepo;
+	private RespondentRepository respRepo;
+
 
 //Methods for SURVEYS
 
@@ -221,39 +217,39 @@ public class AppController {
 		return uanswerResponse;
 	}
 
-	// Methods for USERS
-	@RequestMapping(value = "/apiusers", method = RequestMethod.GET)
+	// Methods for RESPONDENTS
+	@RequestMapping(value = "/apirespondents", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:3000")
-	public List<User> usersListRest() {
-		return (List<User>) uRepo.findAll();
+	public List<Respondent> respListRest() {
+		return (List<Respondent>) respRepo.findAll();
 	}
 
-	@RequestMapping(value = "/apiusers/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/apirespondents/{id}", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:3000")
-	public Optional<User> findUserRest(@PathVariable("id") Long id) {
-		return uRepo.findById(id);
+	public Optional<Respondent> findRespRest(@PathVariable("id") Long id) {
+		return respRepo.findById(id);
 	}
 
-	@RequestMapping(value = "/apiusers", method = RequestMethod.POST)
-	public User saveUserRest(@RequestBody User user) {
-		return uRepo.save(user);
+	@RequestMapping(value = "/apirespondents", method = RequestMethod.POST)
+	public Respondent saveRespRest(@RequestBody Respondent respondent) {
+		return respRepo.save(respondent);
 	}
 
-	@RequestMapping(value = "/apiusers/{id}", method = RequestMethod.DELETE)
-	public String deleteUserRest(@PathVariable Long id) {
-		uRepo.deleteById(id);
-		return "User " + id + " deleted";
+	@RequestMapping(value = "/apirespondents/{id}", method = RequestMethod.DELETE)
+	public String deleteRespRest(@PathVariable Long id) {
+		respRepo.deleteById(id);
+		return "Respondent " + id + " deleted";
 	}
 
-	@RequestMapping(value = "/apiusers/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/apirespondents/{id}", method = RequestMethod.PUT)
 	@CrossOrigin(origins = "http://localhost:3000")
-	public User updateUserRest(@RequestBody User newUser, @PathVariable Long id) {
-		return uRepo.findById(id).map(user -> {
-			user.setUserName(newUser.getUserName());
-			return uRepo.save(user);
+	public Respondent updateRespRest(@RequestBody Respondent newResp, @PathVariable Long id) {
+		return respRepo.findById(id).map(respondent -> {
+			respondent.setRespondentName(newResp.getRespondentName());
+			return respRepo.save(respondent);
 		}).orElseGet(() -> {
-			newUser.setUserID(id);
-			return uRepo.save(newUser);
+			newResp.setUserID(id);
+			return respRepo.save(newResp);
 		});
 	}
 
@@ -266,26 +262,26 @@ public class AppController {
 	// if try to access it via url, redirected to login page
 	// after successful login, can access whatever you please until logout
 
-	@PreAuthorize("hasAuthority('ADMIN')")
-	@RequestMapping(value = "/apiadmin/adusers", method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:3000")
-	public List<AdminUser> adminUsersListRest() {
-		return (List<AdminUser>) adminRepo.findAll();
-	}
-
-	@PreAuthorize("hasAuthority('ADMIN')")
-	@RequestMapping(value = "/apiadmin/aduser/{id}", method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:3000")
-	public Optional<AdminUser> findAdminUserRest(@PathVariable("id") Long id) {
-		return adminRepo.findById(id);
-	}
+//	@PreAuthorize("hasAuthority('ADMIN')")
+//	@RequestMapping(value = "/apiadmin/adusers", method = RequestMethod.GET)
+//	@CrossOrigin(origins = "http://localhost:3000")
+//	public List<AdminUser> adminUsersListRest() {
+//		return (List<AdminUser>) adminRepo.findAll();
+//	}
+//
+//	@PreAuthorize("hasAuthority('ADMIN')")
+//	@RequestMapping(value = "/apiadmin/aduser/{id}", method = RequestMethod.GET)
+//	@CrossOrigin(origins = "http://localhost:3000")
+//	public Optional<AdminUser> findAdminUserRest(@PathVariable("id") Long id) {
+//		return adminRepo.findById(id);
+//	}
 
 	// methods to authenticate an adminuser
 
-	@RequestMapping(value = "/login")
-	public String login() {
-		return "login";
-	}
+//	@RequestMapping(value = "/login")
+//	public String login() {
+//		return "login";
+//	}
 
 	// THE ENDPOINT FOR LOGGING OUT IS JUST /LOGOUT
 
@@ -323,7 +319,7 @@ public class AppController {
 	@RequestMapping(value = "/apiouanswers/{id}", method = RequestMethod.DELETE)
 	public String deleteOUARest(@PathVariable Long id) {
 		oUaRepo.deleteById(id);
-		return "User " + id + " deleted";
+		return "OpenUserAnswer " + id + " deleted";
 	}
 
 }

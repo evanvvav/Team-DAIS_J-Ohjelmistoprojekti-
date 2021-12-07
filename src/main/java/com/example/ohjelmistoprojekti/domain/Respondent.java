@@ -13,37 +13,36 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-//@Table(name="users")
-public class User {
+public class Respondent {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long userID;
+	private Long respondentID;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	@JsonIgnoreProperties("user")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "respondent")
+	@JsonIgnoreProperties({"respondent", "userAnswers"})
 	private List<UserAnswer> userAnswers;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	@JsonIgnoreProperties("user")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "respondent")
+	@JsonIgnoreProperties({"respondent", "openUserAnswers"})
 	private List<OpenUserAnswer> openUserAnswers;
 
-	private String userName;
+	private String respondentName;
 
-	public User() {
+	public Respondent() {
 		super();
 	}
 
-	public User(String name) {
+	public Respondent(String name) {
 		super();
-		this.userName = name;
+		this.respondentName = name;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getRespondentName() {
+		return respondentName;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setRespondentName(String respondentName) {
+		this.respondentName = respondentName;
 	}
 
 	public List<OpenUserAnswer> getOpenUserAnswers() {
@@ -54,12 +53,12 @@ public class User {
 		this.openUserAnswers = openUserAnswers;
 	}
 
-	public Long getUserID() {
-		return userID;
+	public Long getRespondentID() {
+		return respondentID;
 	}
 
-	public void setUserID(Long userID) {
-		this.userID = userID;
+	public void setUserID(Long respondentID) {
+		this.respondentID = respondentID;
 	}
 
 	public List<UserAnswer> getUserAnswers() {

@@ -7,8 +7,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.example.ohjelmistoprojekti.domain.AdminUser;
-import com.example.ohjelmistoprojekti.domain.AdminUserRepository;
 import com.example.ohjelmistoprojekti.domain.Answer;
 import com.example.ohjelmistoprojekti.domain.AnswerRepository;
 import com.example.ohjelmistoprojekti.domain.OpenUserAnswer;
@@ -17,10 +15,10 @@ import com.example.ohjelmistoprojekti.domain.Question;
 import com.example.ohjelmistoprojekti.domain.QuestionRepository;
 import com.example.ohjelmistoprojekti.domain.Survey;
 import com.example.ohjelmistoprojekti.domain.SurveyRepository;
-import com.example.ohjelmistoprojekti.domain.User;
+import com.example.ohjelmistoprojekti.domain.Respondent;
 import com.example.ohjelmistoprojekti.domain.UserAnswer;
 import com.example.ohjelmistoprojekti.domain.UserAnswerRepository;
-import com.example.ohjelmistoprojekti.domain.UserRepository;
+import com.example.ohjelmistoprojekti.domain.RespondentRepository;
 
 @SpringBootApplication
 public class OhjelmistoprojektiTeamDaisJApplication {
@@ -32,8 +30,7 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 
 	@Bean
 	public CommandLineRunner surveyDemo(AnswerRepository aRepo, SurveyRepository sRepo, QuestionRepository qRepo,
-			UserAnswerRepository uaRepo, OpenUserAnswerRepository oUaRepo, UserRepository uRepo,
-			AdminUserRepository adminRepo) {
+			UserAnswerRepository uaRepo, OpenUserAnswerRepository oUaRepo, RespondentRepository respRepo) {
 		return (args) -> {
 			log.info("saving sample data");
 			Survey survey1 = new Survey("First survey");
@@ -49,8 +46,8 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 			qRepo.save(q3);
 			log.info("questions created: 1)" + q1.getQuestion() + " 2)" + q2.getQuestion() + " 3)" + q3.getQuestion());
 
-			User user1 = new User("Anna");
-			uRepo.save(user1);
+			Respondent respondent1 = new Respondent("Anna");
+			respRepo.save(respondent1);
 
 			Answer a1 = new Answer("very difficult", q1);
 			aRepo.save(a1);
@@ -70,23 +67,15 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 			log.info("for question " + q2.getQuestion() + " answers created: 1)" + a4.getAnswer() + " 2)"
 					+ a5.getAnswer() + " 3)" + a6.getAnswer());
 
-			UserAnswer ua1 = new UserAnswer(a1, user1);
-			UserAnswer ua2 = new UserAnswer(a4, user1);
+			UserAnswer ua1 = new UserAnswer(a1, respondent1);
+			UserAnswer ua2 = new UserAnswer(a4, respondent1);
 
 			uaRepo.save(ua1);
 			uaRepo.save(ua2);
 			
-			OpenUserAnswer oua1 = new OpenUserAnswer("Sample answer 1", user1, q3);
+			OpenUserAnswer oua1 = new OpenUserAnswer("Sample answer 1", respondent1, q3);
 			oUaRepo.save(oua1);
 
-			AdminUser admin1 = new AdminUser("admin", "$2a$10$0MMwY.IQqpsVc1jC8u7IJ.2rT8b0Cd3b3sfIBGV2zfgnPGtT4r0.C",
-					"ADMIN");
-			adminRepo.save(admin1);
-
-//			OpenUserAnswer oua1 = new OpenUserAnswer("Anna", anna, q3);
-//			oUaRepo.save(oua1);
-//
-//			log.info("For question " + q3.getQuestion() + " answer " + oua1.getAnswerText() + " by user " + anna.getUserID() + " created");
 		};
 
 	}
