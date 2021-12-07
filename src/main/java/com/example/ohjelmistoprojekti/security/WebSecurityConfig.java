@@ -21,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //THIS SHOULD BE THE ONE
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/apiadmin/**").hasAuthority("ADMIN").and()
-				.formLogin().defaultSuccessUrl("/apisurveys", true).permitAll().and().logout().permitAll().and().csrf()
+				.formLogin().defaultSuccessUrl("/apiadmin/adusers", true).permitAll().and().logout().permitAll().and().csrf()
 				.disable();
 	}
 
