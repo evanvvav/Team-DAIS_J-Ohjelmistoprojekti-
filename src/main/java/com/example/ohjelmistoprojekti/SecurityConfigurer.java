@@ -35,7 +35,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 		http.csrf().disable()
 		.authorizeRequests().antMatchers("/authenticate").permitAll()
 				.antMatchers(HttpMethod.POST, "/apiuseranswers/**", "/savealluseranswers/**", "/apiouanswers/**", "/saveallouanswers/**", "/apirespondents/**" ).permitAll()
-				.antMatchers(HttpMethod.GET, "/apisurveys/**", "/apiquestions/**", "/apianswers/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/apisurveys/**", "/apiquestions/**", "/apianswers/**", "/apirespondents/**").permitAll()
 				.anyRequest().authenticated()
 				.and().
 				exceptionHandling().and().sessionManagement()
