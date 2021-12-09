@@ -34,8 +34,9 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable()
 		.authorizeRequests().antMatchers("/authenticate").permitAll()
-				.antMatchers(HttpMethod.POST, "/apiuseranswers/**", "/savealluseranswers/**", "/apiouanswers/**", "/saveallouanswers/**", "/apirespondents/**" ).permitAll()
-				.antMatchers(HttpMethod.GET, "/apisurveys/**", "/apiquestions/**", "/apianswers/**", "/apirespondents/**", "/apiouanswers/**").permitAll()
+				.antMatchers(HttpMethod.POST, "/apiuseranswers/**", "/savealluseranswers/**", "/apiouanswers/**", "/saveallouanswers/**", "/apirespondents/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/apisurveys/**", "/apiquestions/**", "/apianswers/**", "/apirespondents/**", "/apiuseranswers/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/apisurveys/**", "/apiquestions/**", "/apianswers/**", "/apirespondents/**", "/apiuseranswers/**", "/apiouanswers/**").authenticated()
 				.antMatchers(HttpMethod.PUT).authenticated()
 				.antMatchers(HttpMethod.DELETE).authenticated()
 				.anyRequest().authenticated()
