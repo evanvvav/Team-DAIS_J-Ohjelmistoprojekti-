@@ -126,6 +126,7 @@ public class AppController {
 	}
 
 	@RequestMapping(value = "/apiquestions/{id}", method = RequestMethod.DELETE)
+	@CrossOrigin(origins = "http://localhost:3000")
 	public String deleteQuestionRest(@PathVariable Long id) {
 		qRepo.deleteById(id);
 		return "Question " + id + " deleted";
@@ -177,6 +178,7 @@ public class AppController {
 
 	// delete answer by id
 	@RequestMapping(value = "/apianswers/{id}", method = RequestMethod.DELETE)
+	@CrossOrigin(origins = "http://localhost:3000")
 	public String deleteAnswerRest(@PathVariable Long id) {
 		aRepo.deleteById(id);
 		return "Answer " + id + " deleted";
@@ -196,11 +198,13 @@ public class AppController {
 	}
 
 	@RequestMapping(value = "/apiuseranswers", method = RequestMethod.POST)
+	@CrossOrigin(origins = "http://localhost:3000")
 	public UserAnswer saveUAnswerRest(@RequestBody UserAnswer uAnswer) {
 		return uaRepo.save(uAnswer);
 	}
 
 	@RequestMapping(value = "/apiuseranswers/{id}", method = RequestMethod.DELETE)
+	@CrossOrigin(origins = "http://localhost:3000")
 	public String deleteUAnswerRest(@PathVariable Long id) {
 		uaRepo.deleteById(id);
 		return "UserAnswer " + id + " deleted";
@@ -227,11 +231,13 @@ public class AppController {
 	}
 
 	@RequestMapping(value = "/apirespondents", method = RequestMethod.POST)
+	@CrossOrigin(origins = "http://localhost:3000")
 	public Respondent saveRespRest(@RequestBody Respondent respondent) {
 		return respRepo.save(respondent);
 	}
 
 	@RequestMapping(value = "/apirespondents/{id}", method = RequestMethod.DELETE)
+	@CrossOrigin(origins = "http://localhost:3000")
 	public String deleteRespRest(@PathVariable Long id) {
 		respRepo.deleteById(id);
 		return "Respondent " + id + " deleted";
@@ -299,6 +305,7 @@ public class AppController {
 
 	// save open user answer
 	@RequestMapping(value = "/apiouanswers", method = RequestMethod.POST)
+	@CrossOrigin(origins = "http://localhost:3000")
 	public OpenUserAnswer saveOUARest(@RequestBody OpenUserAnswer ouanswer) {
 		return oUaRepo.save(ouanswer);
 	}
@@ -313,6 +320,7 @@ public class AppController {
 
 	// delete openuseranswer
 	@RequestMapping(value = "/apiouanswers/{id}", method = RequestMethod.DELETE)
+	@CrossOrigin(origins = "http://localhost:3000")
 	public String deleteOUARest(@PathVariable Long id) {
 		oUaRepo.deleteById(id);
 		return "OpenUserAnswer " + id + " deleted";

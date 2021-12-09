@@ -38,8 +38,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/apisurveys/**", "/apiquestions/**", "/apianswers/**", "/apirespondents/**").permitAll()
 				.anyRequest().authenticated()
 				.and().
-				exceptionHandling().and().sessionManagement()
-		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+				exceptionHandling().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 
