@@ -35,10 +35,13 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable()
 		.authorizeRequests().antMatchers("/authenticate").permitAll()
 				.antMatchers(HttpMethod.POST, "/apiuseranswers/**", "/savealluseranswers/**", "/apiouanswers/**", "/saveallouanswers/**", "/apirespondents/**" ).permitAll()
-				.antMatchers(HttpMethod.GET, "/apisurveys/**", "/apiquestions/**", "/apianswers/**", "/apirespondents/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/apisurveys/**", "/apiquestions/**", "/apianswers/**", "/apirespondents/**", "/apiouanswers/**").permitAll()
+				.antMatchers(HttpMethod.PUT).authenticated()
+				.antMatchers(HttpMethod.DELETE).authenticated()
 				.anyRequest().authenticated()
 				.and().
-				exceptionHandling().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+				exceptionHandling()
+				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 
