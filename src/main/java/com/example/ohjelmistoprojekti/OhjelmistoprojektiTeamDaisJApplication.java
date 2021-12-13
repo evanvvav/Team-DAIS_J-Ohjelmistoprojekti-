@@ -7,18 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.example.ohjelmistoprojekti.domain.Answer;
-import com.example.ohjelmistoprojekti.domain.AnswerRepository;
-import com.example.ohjelmistoprojekti.domain.OpenUserAnswer;
-import com.example.ohjelmistoprojekti.domain.OpenUserAnswerRepository;
-import com.example.ohjelmistoprojekti.domain.Question;
-import com.example.ohjelmistoprojekti.domain.QuestionRepository;
-import com.example.ohjelmistoprojekti.domain.Survey;
-import com.example.ohjelmistoprojekti.domain.SurveyRepository;
-import com.example.ohjelmistoprojekti.domain.Respondent;
-import com.example.ohjelmistoprojekti.domain.UserAnswer;
-import com.example.ohjelmistoprojekti.domain.UserAnswerRepository;
-import com.example.ohjelmistoprojekti.domain.RespondentRepository;
+import com.example.ohjelmistoprojekti.domain.*;
 
 @SpringBootApplication
 public class OhjelmistoprojektiTeamDaisJApplication {
@@ -30,7 +19,7 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 
 	@Bean
 	public CommandLineRunner surveyDemo(AnswerRepository aRepo, SurveyRepository sRepo, QuestionRepository qRepo,
-			UserAnswerRepository uaRepo, OpenUserAnswerRepository oUaRepo, RespondentRepository respRepo) {
+			UserAnswerRepository uaRepo, OpenUserAnswerRepository oUaRepo, RespondentRepository respRepo, UserRepository uRepo) {
 		return (args) -> {
 			log.info("saving sample data");
 			Survey survey1 = new Survey("First survey");
@@ -75,6 +64,11 @@ public class OhjelmistoprojektiTeamDaisJApplication {
 			
 			OpenUserAnswer oua1 = new OpenUserAnswer("Sample answer 1", respondent1, q3);
 			oUaRepo.save(oua1);
+			
+//			User admin = new User("admin", "$2a$10$0MMwY.IQqpsVc1jC8u7IJ.2rT8b0Cd3b3sfIBGV2zfgnPGtT4r0.C", "ADMIN");
+			User admin = new User("admin", "admin", "ADMIN");
+			uRepo.save(admin);
+
 
 		};
 
