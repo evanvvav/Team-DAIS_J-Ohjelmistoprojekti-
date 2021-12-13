@@ -197,11 +197,6 @@ public class AppController {
 		return uaRepo.findById(uanswerID);
 	}
 
-	@RequestMapping(value = "/apiuseranswers", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:3000")
-	public UserAnswer saveUAnswerRest(@RequestBody UserAnswer uAnswer) {
-		return uaRepo.save(uAnswer);
-	}
 
 	@RequestMapping(value = "/apiuseranswers/{id}", method = RequestMethod.DELETE)
 	@CrossOrigin(origins = "http://localhost:3000")
@@ -255,37 +250,6 @@ public class AppController {
 		});
 	}
 
-	// Methods for ADMINUSERS
-	// so far only these
-	// not sure what we needed
-	// for any method that is ONLY FOR ADMINUSERS
-	// the endpoint needs to start with /apiadmin/x
-	// can replace x with whatever and only admin users can access it
-	// if try to access it via url, redirected to login page
-	// after successful login, can access whatever you please until logout
-
-//	@PreAuthorize("hasAuthority('ADMIN')")
-//	@RequestMapping(value = "/apiadmin/adusers", method = RequestMethod.GET)
-//	@CrossOrigin(origins = "http://localhost:3000")
-//	public List<AdminUser> adminUsersListRest() {
-//		return (List<AdminUser>) adminRepo.findAll();
-//	}
-//
-//	@PreAuthorize("hasAuthority('ADMIN')")
-//	@RequestMapping(value = "/apiadmin/aduser/{id}", method = RequestMethod.GET)
-//	@CrossOrigin(origins = "http://localhost:3000")
-//	public Optional<AdminUser> findAdminUserRest(@PathVariable("id") Long id) {
-//		return adminRepo.findById(id);
-//	}
-
-	// methods to authenticate an adminuser
-
-//	@RequestMapping(value = "/login")
-//	public String login() {
-//		return "login";
-//	}
-
-	// THE ENDPOINT FOR LOGGING OUT IS JUST /LOGOUT
 
 	// Methods for OPEN USER ANSWERS
 
@@ -303,12 +267,6 @@ public class AppController {
 		return oUaRepo.findById(id);
 	}
 
-	// save open user answer
-	@RequestMapping(value = "/apiouanswers", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:3000")
-	public OpenUserAnswer saveOUARest(@RequestBody OpenUserAnswer ouanswer) {
-		return oUaRepo.save(ouanswer);
-	}
 
 	// save LIST of OUAnswers
 	@RequestMapping(value = "/saveallouanswers", method = RequestMethod.POST)

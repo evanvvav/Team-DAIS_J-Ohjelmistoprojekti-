@@ -27,21 +27,27 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(myUserDetailsService);
-		
 	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable()
 		.authorizeRequests().antMatchers("/authenticate").permitAll()
+//				.antMatchers(HttpMethod.GET, "/apiouanswers/**", "/apiuseranswers/**").authenticated()
+				.antMatchers(HttpMethod.GET).permitAll()
 				.antMatchers(HttpMethod.POST, "/apiuseranswers/**", "/savealluseranswers/**", "/apiouanswers/**", "/saveallouanswers/**", "/apirespondents/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/apisurveys/**", "/apiquestions/**", "/saveallanswers/**").authenticated()
-				.antMatchers(HttpMethod.GET).permitAll()
 				.antMatchers(HttpMethod.PUT).authenticated()
 				.antMatchers(HttpMethod.DELETE).authenticated()
+
+				.antMatchers("/h2-console/**").permitAll()
 				.anyRequest().authenticated()
-				.and().
-				exceptionHandling()
+				.and()
+				.csrf().ignoringAntMatchers("/h2-console/**")
+				.and()
+				.headers().frameOptions().sameOrigin()
+				.and()
+				.exceptionHandling()
 				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
